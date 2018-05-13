@@ -3,12 +3,13 @@ namespace Bascplain
 module Charts =
 
     open Analysis
+    open System
     open XPlot.Plotly
 
-    let getArbitraryTimeSeriesChart g ys =
+    let getArbitraryTimeSeriesChart g (ys : (string * (DateTime * AnalysisItem) seq) seq) =
         let ls = ys |> Seq.map fst
         let mapSnd f us = us |> Seq.map (fun (x,y) -> x, f y)
-        let ts = ys |> Seq.map snd |> mapSnd g |> Chart.Line |> Chart.WithLabels ls
+        let ts = ys |> Seq.map (snd >> mapSnd g) |> Chart.Line |> Chart.WithLabels ls
 
         ts.GetInlineHtml()
 

@@ -35,5 +35,5 @@ module Loader =
     let regroupFlowsToTimeSeries gs =
         gs |> Seq.map snd |> Seq.collect id |> Seq.groupBy (fun f -> f.Snapshot.Date)
 
-    let analyzeDirectory p d =
-        loadDirectory d |> makeFlowsFromFileResults |> regroupFlowsToTimeSeries |> analyzeIntoMatcherGroupsT p
+    let analyzeDirectory d ms =
+        loadDirectory d |> makeFlowsFromFileResults |> regroupFlowsToTimeSeries |> analyzeIntoMatcherGroupsT ms

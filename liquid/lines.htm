@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Showing {{model.property}} chart</title>
+        <meta charset="UTF-8" />
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <h1>Bascplain</h1>
+        <h2><em>{{model.property}}</em> chart</h2>
+        <p>The following expressions were given by you:
+            <ul>
+            {% for expression in model.expressions %}
+                <li><kbd>{{expression}}</kbd></li>
+            {% endfor %}
+            </ul>
+        </p>
+        <div>
+            {{model.chart_html}}
+        </div>
+    </body>
+</html>

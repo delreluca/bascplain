@@ -41,4 +41,5 @@ module Analysis =
     let analyzeIntoMatcherGroupsT ms gs =
         let groupByInnerFst xs = xs |> Seq.collect (fun (d,ts) -> ts|> Seq.map (fun t -> fst t, (snd t, d))) |> Seq.groupBy fst
         let groupBySndNicely xs = xs |> Seq.groupBy snd |> Seq.map (fun (k,is) -> k, is |> Seq.map fst)
-        analyzeOnMatchesT ms gs |> groupByInnerFst |> Seq.map (fun (n,us) -> n, us |> Seq.map snd |> groupBySndNicely)
+        let takeFirstOfSecond (d,xs) = Seq.first xs |> Option.map (fun x -> d,x)
+        analyzeOnMatchesT ms gs |> groupByInnerFst |> Seq.map (fun (n,us) -> n, us |> Seq.map snd |> groupBySndNicely |> Seq.choose takeFirstOfSecond)
