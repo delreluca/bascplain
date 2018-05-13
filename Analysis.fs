@@ -2,45 +2,14 @@ namespace Bascplain
 
 module Analysis =
 
-    open Classification
+    open Matchers
     open Portfolio
 
     type PerformanceInfo = { Return : decimal; AccumulatedPerformance : decimal; } 
     type AnalysisItem = { Nav : decimal; PerformanceNext : PerformanceInfo; PerformanceNow : PerformanceInfo; Weight: decimal; }
-    type Matcher = { Name : string; Predicate: PortfolioFlowPosition -> bool; }
-
-    let (<&>) m1 m2 =
-        {
-            Name = sprintf "%s+%s" m1.Name m2.Name;
-            Predicate = (fun f -> m1.Predicate f || m2.Predicate f);
-        }
-
-    let matchAll =
-        {
-            Name = "portfolio";
-            Predicate = (fun _ -> true);
-        }
-
-    let matchIsin i =
-        {
-            Name = sprintf "isin:%s" i;
-            Predicate = (fun f -> f.Snapshot.Isin.ToUpperInvariant() = i.ToUpperInvariant());
-        }
-
-    let matchClassifier c =
-        {
-            Name = sprintf "cr:%A.%s" c.What (c.Where |> Option.map (sprintf "%A") |> Option.defaultValue "*");
-            Predicate = (fun f -> classifyIsin f.Snapshot.Isin |> Option.map (fun d -> d = c) |> Option.defaultValue false);
-        }
-
-    let matchClassifierWhat a =
-        {
-            Name = sprintf "class:%A" a;
-            Predicate = (fun f -> classifyIsin f.Snapshot.Isin |> Option.map (fun c -> c.What = a) |> Option.defaultValue false);
-        }
 
     let analyzeSingleDaySingleMatcher fs (m, (n,a)) = 
-        let fs' = Seq.filter m.Predicate fs
+        let fs' = fs |> Seq.filter (getPredicate m)
 
         let nominator = fs' |> Seq.sumBy (fun f -> f.Snapshot.TotalValue * f.ReturnOnNext)
         let nav = fs' |> Seq.sumBy (fun f -> f.Snapshot.TotalValue)
@@ -58,7 +27,7 @@ module Analysis =
         let foldAnalysis bs fs = 
             let az = match bs with
                         | b :: _ -> b
-                        | [] -> ms |> Seq.map (fun p -> p.Name,emptyAnalysis)
+                        | [] -> ms |> Seq.map (fun p -> getName p,emptyAnalysis)
             
             let thisDayAnalyses = Seq.zip ms az |> Seq.map (analyzeSingleDaySingleMatcher fs)
             thisDayAnalyses :: bs

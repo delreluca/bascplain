@@ -11,14 +11,25 @@ module Classification =
                 | DevelopedMarkets
                 | Eurozone
 
-    let generalizeRegion region = match region with
-                                  | Eurozone -> Europe
-                                  | Germany -> Europe
-                                  | _ -> region
-
-    let generalizeRegion2 region = match region with
-                                   | EmergingMarkets -> EmergingMarkets
-                                   | _ -> DevelopedMarkets
+    let parseRegion (s : string) =
+        match s.ToLowerInvariant() with
+            | "de"
+            | "germany" -> Some Germany
+            | "eu"
+            | "europe" -> Some Europe
+            | "euro"
+            | "eur"
+            | "eurozone" -> Some Eurozone
+            | "us"
+            | "usa" -> Some USA
+            | "jp"
+            | "japan" -> Some Japan
+            | "pacific"
+            | "pacificexjapan" -> Some PacificExJapan
+            | "em"
+            | "emergingmarkets" -> Some EmergingMarkets
+            | "developedmarkets" -> Some DevelopedMarkets
+            | _ -> None
 
     type FixedIncomeNature = Sovereign
                             | Corporate
@@ -29,6 +40,26 @@ module Classification =
                     | Commodities
                     | RealEstate
                     | Cash
+
+    let parseAssetClass (s : string) =
+        match s.ToLowerInvariant() with
+            | "eq"
+            | "stocks"
+            | "equity" -> Some Equity
+            | "gov"
+            | "government"
+            | "sov"
+            | "sovereign" -> Some <| FixedIncome Sovereign
+            | "corp"
+            | "corporate" -> Some <| FixedIncome Corporate
+            | "cov"
+            | "covered" -> Some <| FixedIncome Covered
+            | "comm"
+            | "commodities" -> Some Commodities
+            | "re"
+            | "realestate" -> Some RealEstate
+            | "cash" -> Some Cash
+            | _ -> None
 
     type Classifier = { What: AssetClass; Where: Region option; }
 
@@ -55,4 +86,5 @@ module Classification =
                             | "LU0446734526" -> Some { What = Equity; Where = Some PacificExJapan }
                             | "LU0480132876" -> Some { What = Equity; Where = Some EmergingMarkets }
                             | "LU0839027447" -> Some { What = Equity; Where = Some Japan }
+                            | "<CASH>" -> Some { What = Cash; Where = None; }
                             | _ -> None

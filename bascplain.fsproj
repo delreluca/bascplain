@@ -9,6 +9,7 @@
     <Compile Include="Classification.fs" />
     <Compile Include="Cash.fs" />
     <Compile Include="Portfolio.fs" />
+    <Compile Include="Matchers.fs" />
     <Compile Include="Analysis.fs" />
     <Compile Include="Loader.fs" />
     <Compile Include="Program.fs" />
