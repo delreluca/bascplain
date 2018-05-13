@@ -23,7 +23,7 @@ module Matchers =
             | MatchClassifier c -> sprintf "class-region:%A.%s" c.What (c.Where |> Option.map (sprintf "%A") |> Option.defaultValue "*")
             | NegateMatch m' -> sprintf "!%s" (getName m')
             | UnionMatch (m',n) -> sprintf "%s+%s" (getName m') (getName n)
-            | UnknownMatcher (e,i) -> sprintf "(!) '%s' is not a valid matcher: %s" i e
+            | UnknownMatcher (e,i) -> sprintf "(!) '%s' invalid: %s" i e
 
     let rec getPredicate m =
         let classifyFlow f = classifyIsin f.Snapshot.Isin
