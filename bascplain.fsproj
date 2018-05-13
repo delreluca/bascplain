@@ -11,6 +11,7 @@
     <Compile Include="Portfolio.fs" />
     <Compile Include="Matchers.fs" />
     <Compile Include="Analysis.fs" />
+    <Compile Include="Charts.fs" />
     <Compile Include="Loader.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
