@@ -14,7 +14,7 @@ module Analysis =
         let nominator = fs' |> Seq.sumBy (fun f -> f.Snapshot.TotalValue * f.ReturnOnNext)
         let nav = fs' |> Seq.sumBy (fun f -> f.Snapshot.TotalValue)
         let totalNav = fs |> Seq.sumBy (fun f -> f.Snapshot.TotalValue)
-        let ret = nominator / nav
+        let ret = if nav = 0.0m then 0.0m else nominator / nav
 
         let performance = { Return = ret; AccumulatedPerformance = (1.0m + a.PerformanceNext.AccumulatedPerformance) * (1.0m + ret) - 1.0m; }
 
