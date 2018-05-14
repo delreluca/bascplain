@@ -21,7 +21,9 @@
     <PackageReference Include="FSharp.Data" Version="3.0.0-beta3" />
     <PackageReference Include="Suave" Version="2.4.0" />
     <PackageReference Include="Suave.DotLiquid" Version="2.4.0" />
-    <PackageReference Include="Xplot.Plotly" Version="1.4.5" />
+    <PackageReference Include="Xplot.Plotly" Version="1.4.5">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
