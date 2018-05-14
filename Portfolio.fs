@@ -28,4 +28,4 @@ module Portfolio =
         let foldReturns fs (s) = match fs with
                                   | f :: fs' -> { Snapshot = s; ReturnOnNext = 0.0m; } :: { f with ReturnOnNext = s.Quote / f.Snapshot.Quote - 1.0m } :: fs'
                                   | [] -> [{Snapshot = s; ReturnOnNext = 0.0m }]
-        xs |> Seq.fold foldReturns [] |> Seq.rev |> Seq.skip 1
+        xs |> Seq.fold foldReturns [] |> Seq.rev
