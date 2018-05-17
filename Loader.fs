@@ -33,7 +33,8 @@ module Loader =
             |> Array.map (fun (i,ps) -> i,makeFlowForSecurity <| Array.sortBy (fun p -> p.Date) ps)
 
     let regroupFlowsToTimeSeries gs =
-        gs |> Seq.map snd |> Seq.collect id |> Seq.groupBy (fun f -> f.Snapshot.Date)
+        gs |> Array.map snd |> Array.collect id |> Array.groupBy (fun f -> f.Snapshot.Date)
 
-    let analyzeDirectory d ms =
-        loadDirectory d |> makeFlowsFromFileResults |> regroupFlowsToTimeSeries |> analyzeIntoMatcherGroupsT ms
+    let loadDirectoryForAnalysis d = loadDirectory d |> makeFlowsFromFileResults |> regroupFlowsToTimeSeries
+
+    let analyzeDirectory d ms = loadDirectoryForAnalysis d |> analyzeIntoMatcherGroupsT ms

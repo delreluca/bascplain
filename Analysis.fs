@@ -20,20 +20,21 @@ module Analysis =
 
         n,{ Nav = nav;  Weight = nav/totalNav; PerformanceNext = performance; PerformanceNow = a.PerformanceNext; }
 
-    let analyzeOnMatches ms (gs : PortfolioFlowPosition seq seq) =
+    let analyzeOnMatches ms (gs : PortfolioFlowPosition [] []) =
         let emptyPerformance = { Return = 0.0m; AccumulatedPerformance = 0.0m; }
         let emptyAnalysis = { Nav = 0.0m; PerformanceNext = emptyPerformance; PerformanceNow = emptyPerformance; Weight = 0.0m; }
 
+        //This is a part where using arrays over sequences/lists is good performance-wise
         let foldAnalysis bs fs = 
             let az = match bs with
                         | b :: _ -> b
-                        | [] -> ms |> Seq.map (fun p -> getName p,emptyAnalysis)
+                        | [] -> ms |> Array.map (fun p -> getName p,emptyAnalysis)
             
-            let thisDayAnalyses = Seq.zip ms az |> Seq.map (analyzeSingleDaySingleMatcher fs)
+            let thisDayAnalyses = Array.zip ms az |> Array.map (analyzeSingleDaySingleMatcher fs)
             thisDayAnalyses :: bs
         gs |> Seq.fold foldAnalysis []
 
-    let analyzeOnMatchesT ms ts = ts |> Seq.map snd |> analyzeOnMatches ms |> Seq.rev |> Seq.zip (ts |> Seq.map fst)
+    let analyzeOnMatchesT ms ts = ts |> Array.map snd |> analyzeOnMatches ms |> Seq.rev |> Seq.zip (ts |> Seq.map fst)
 
     let analyzeIntoMatcherGroups ms gs =
         analyzeOnMatches ms gs |> Seq.collect id |> Seq.groupBy fst |> Seq.map (fun (n,ts) -> n, ts |> Seq.map snd)

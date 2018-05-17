@@ -22,7 +22,7 @@ module Matchers =
             | MatchRegion r -> sprintf "region:%A" r
             | MatchClassifier c -> sprintf "class-region:%A.%s" c.What (c.Where |> Option.map (sprintf "%A") |> Option.defaultValue "*")
             | NegateMatch m' -> sprintf "!%s" (getName m')
-            | UnionMatch (m',n) -> sprintf "%s+%s" (getName m') (getName n)
+            | UnionMatch (m',n) -> sprintf "%s,%s" (getName m') (getName n)
             | UnknownMatcher (e,i) -> sprintf "(!) '%s' invalid: %s" i e
 
     let rec getPredicate m =
@@ -50,6 +50,10 @@ module Matchers =
     let parseMatchExpression (e : string) =
         let parsePositiveMatchExpression (e' : string) =
             match e'.Split [|':'|] with
+                | [|"class";"bonds"|]
+                | [|"class";"bond"|]
+                | [|"class";"fixedincome"|]
+                | [|"class";"fi"|] -> MatchClass (FixedIncome Sovereign) <&> MatchClass (FixedIncome Corporate) <&> MatchClass (FixedIncome Covered)
                 | [|"isin";i|] -> MatchIsin i
                 | [|"portfolio"|] -> WholePortfolio
                 | [|"region";r|] -> parseRegion r |> Option.map MatchRegion |> Option.defaultValue (UnknownMatcher (sprintf "'%s' is not a valid region" r,e'))
@@ -64,4 +68,4 @@ module Matchers =
             else
                 parsePositiveMatchExpression e'
 
-        e.Split [|'+'|] |> Seq.fold (fun m x -> m <&> parseStandaloneMatchExpression x) (NegateMatch WholePortfolio)
+        e.Split [|','|] |> Seq.fold (fun m x -> m <&> parseStandaloneMatchExpression x) (NegateMatch WholePortfolio)
