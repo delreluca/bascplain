@@ -4,6 +4,8 @@
 
 ## Current state
 
+![Screenshot of a weight chart](doc/first_screenshot.png)
+
 The calculations seem to work with my personal CSV files.
 
 The Suave web server is already integrated into the F# project and serves some Plotly charts. The UI is not really user-friendly though; this is the next step.
