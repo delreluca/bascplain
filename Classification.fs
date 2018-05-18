@@ -86,5 +86,7 @@ module Classification =
                             | "LU0446734526" -> Some { What = Equity; Where = Some PacificExJapan }
                             | "LU0480132876" -> Some { What = Equity; Where = Some EmergingMarkets }
                             | "LU0839027447" -> Some { What = Equity; Where = Some Japan }
+                            | "LU0489337690" -> Some { What = RealEstate; Where = Some Europe } //discovered 18 May 2018
+                            | "IE00B1FZSF77" -> Some { What = RealEstate; Where = Some USA } //discovered 18 May 2018
                             | "<CASH>" -> Some { What = Cash; Where = None; }
                             | _ -> None

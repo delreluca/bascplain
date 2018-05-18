@@ -26,7 +26,7 @@ Other possible interesting features could be:
 
 You will need .NET Core no older than 2.1.104. Of course, you will need the broker CSV files in a directory. Once checked out switch to the repository directory and run
 
-```bash
+```console
 $ dotnet run
 Enter CSV directory: /enter/path/to/csv/files/here
 [04:20:00 INF] Smooth! Suave listener started in 79.511ms with binding 127.0.0.1:8080
