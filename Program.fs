@@ -21,8 +21,21 @@ module Program =
         analyzeIntoMatcherGroupsT ms rs
 
     let mkLineChartPage p k z (x : string) =
-        let es = x.Split[|';'|]
-        page "lines.htm" { Property = p; Expressions = es; ChartHtml = k <| z es; }
+        let mkPageWithExpressions es = page "lines.htm" { Property = p; Expressions = es; ChartHtml = k <| z es; }
+
+        let mkPageFromForm (req:HttpRequest) =
+            let getNthFormData n = match req.formData(sprintf "expression%d" n) with
+                                    | Choice2Of2 _ -> None
+                                    | Choice1Of2 a -> Some a
+
+            let es = Seq.initInfinite id |> Seq.map getNthFormData |> Seq.takeWhile Option.isSome |> Seq.choose id |> Seq.toArray
+
+            mkPageWithExpressions <| es
+
+        choose [
+                GET >=> (mkPageWithExpressions <| x.Split[|';'|])
+                POST >=> request mkPageFromForm
+        ]
 
     let webApp z =
         choose [

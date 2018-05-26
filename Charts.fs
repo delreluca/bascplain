@@ -11,7 +11,7 @@ module Charts =
         let mapSnd f us = us |> Seq.map (fun (x,y) -> x, f y)
         let ts = ys |> Seq.map (snd >> mapSnd g) |> Chart.Line |> Chart.WithLabels ls
 
-        ts.GetInlineHtml()
+        ts.GetInlineHtml() |> String.replace "layout = \"\"" "layout = {width: 1500, height: 800}"
 
     let getNavChart ys = getArbitraryTimeSeriesChart (fun a -> a.Nav) ys
 

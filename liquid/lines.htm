@@ -8,13 +8,19 @@
     <body>
         <h1>Bascplain</h1>
         <h2><em>{{model.property}}</em> chart</h2>
-        <p>The following expressions were given by you:
-            <ul>
-            {% for expression in model.expressions %}
-                <li><kbd>{{expression}}</kbd></li>
-            {% endfor %}
-            </ul>
-        </p>
+        <form method="POST" action="">
+            <p>The following expressions were given by you:
+                <ul>
+                {% assign index = 0 %}
+                {% for expression in model.expressions %}
+                    <li><input type="text" value="{{expression}}" name="expression{{index}}" /></li>
+                    {% assign index = index | plus:1 %}
+                {% endfor %}
+                    <li><input type="text" value="" placeholder="type another match expression…" name="expression{{index}}" /></li>
+                </ul>
+                <input type="submit" value="Re-calculate" />
+            </p>
+        </form>
         <div>
             {{model.chart_html}}
         </div>
