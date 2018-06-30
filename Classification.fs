@@ -63,10 +63,6 @@ module Classification =
 
     type Classifier = { What: AssetClass; Where: Region option; }
 
-    open System
-    type ClassifiedDividends = { Today: decimal; AccumulatedYtd: decimal; }
-    type ClassifiedAsset = { Class: Classifier; Weight: decimal; Value: decimal; Return: decimal; Dividend: ClassifiedDividends; Date: DateTime }
-
     let classifyIsin isin = match isin with
                             | "DE0002635307" -> Some { What = Equity; Where = Some Europe }
                             | "DE0005933931" -> Some { What = Equity; Where = Some Germany }
@@ -88,5 +84,6 @@ module Classification =
                             | "LU0839027447" -> Some { What = Equity; Where = Some Japan }
                             | "LU0489337690" -> Some { What = RealEstate; Where = Some Europe } //discovered 18 May 2018
                             | "IE00B1FZSF77" -> Some { What = RealEstate; Where = Some USA } //discovered 18 May 2018
+                            | "IE00B52MJY50" -> Some { What = Equity; Where = Some PacificExJapan } //discovered 22 Jun 2018
                             | "<CASH>" -> Some { What = Cash; Where = None; }
                             | _ -> None
