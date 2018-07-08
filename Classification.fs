@@ -85,5 +85,6 @@ module Classification =
                             | "LU0489337690" -> Some { What = RealEstate; Where = Some Europe } //discovered 18 May 2018
                             | "IE00B1FZSF77" -> Some { What = RealEstate; Where = Some USA } //discovered 18 May 2018
                             | "IE00B52MJY50" -> Some { What = Equity; Where = Some PacificExJapan } //discovered 22 Jun 2018
+                            | "LU0290355717" -> Some { What = FixedIncome Sovereign; Where = Some Eurozone } //discovered 4 Jul 2018
                             | "<CASH>" -> Some { What = Cash; Where = None; }
                             | _ -> None
