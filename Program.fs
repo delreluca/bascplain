@@ -20,6 +20,20 @@ module Program =
         let ms = es |> Array.map parseMatchExpression
         analyzeIntoMatcherGroupsT ms rs
 
+    
+    /// **Description**
+    ///
+    /// **Parameters**
+    ///   * `p` - Title of the chart
+    ///   * `k` - Chart creation function
+    ///   * `z` - Analysis engine `string [] -> 'a`
+    ///   * `x` - Expression list in query
+    ///
+    /// **Output Type**
+    ///   * `WebPart<HttpContext>`
+    ///
+    /// **Exceptions**
+    ///
     let mkLineChartPage p k z (x : string) =
         let mkPageWithExpressions es = page "lines.htm" { Property = p; Expressions = es; ChartHtml = k <| z es; }
 
@@ -53,5 +67,6 @@ module Program =
                 | _ -> printf "Enter CSV directory: "; Console.ReadLine()
         setTemplatesDir "./liquid"
         let r =  loadDirectoryForAnalysis d
-        startWebServer defaultConfig (webApp (mkAnalysisEngine r))
+        let c = {defaultConfig with bindings = [HttpBinding.createSimple HTTP "192.168.2.100" 9000] }
+        startWebServer c (webApp (mkAnalysisEngine r))
         0 // return an integer exit code
