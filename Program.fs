@@ -67,6 +67,6 @@ module Program =
                 | _ -> printf "Enter CSV directory: "; Console.ReadLine()
         setTemplatesDir "./liquid"
         let r =  loadDirectoryForAnalysis d
-        let c = {defaultConfig with bindings = [HttpBinding.createSimple HTTP "192.168.2.100" 9000] }
-        startWebServer c (webApp (mkAnalysisEngine r))
+        //let c = {defaultConfig with bindings = [HttpBinding.createSimple HTTP "0.0.0.0" 9000] }
+        startWebServer defaultConfig (webApp (mkAnalysisEngine r))
         0 // return an integer exit code
