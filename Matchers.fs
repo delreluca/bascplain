@@ -50,6 +50,9 @@ module Matchers =
     let parseMatchExpression (e : string) =
         let parsePositiveMatchExpression (e' : string) =
             match e'.Split [|':'|] with
+                | [|"class";"eq"|]
+                | [|"class";"stocks"|]
+                | [|"class";"equity"|] -> MatchClass (Equity LargeCapOrUnspecified) <&> MatchClass (Equity SmallCap) <&> MatchClass (Equity ValueFactor) <&> MatchClass (Equity MomentumFactor)
                 | [|"class";"bonds"|]
                 | [|"class";"bond"|]
                 | [|"class";"fixedincome"|]
