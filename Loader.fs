@@ -17,7 +17,7 @@ module Loader =
 
     let parseWdpFile (p : string) = wdp2Snapshot (WdpCsv.Load(p)).Rows
 
-    let routePath p = match Path.GetFileName(p).Split [|'_';'.'|] with
+    let routePath p = match Path.GetFileName(p : string).Split [|'_';'.'|] with
                         | [|_;_;_;_;_;"RKK";_;"CSV"|] -> Some <| CashResult (parseRkkFile p)
                         | [|_;_;_;_;_;"WDP";_;"CSV"|] -> Some <| PortfolioResult (parseWdpFile p)
                         | _ -> None
