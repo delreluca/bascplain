@@ -91,6 +91,8 @@ module Classification =
                             | "IE00BD1F4M44" -> Some { What = Equity ValueFactor; Where = Some USA }
                             | "IE00BD1F4N50" -> Some { What = Equity MomentumFactor; Where = Some USA }
                             | "IE00BJ38QD84" -> Some { What = Equity SmallCap; Where = Some USA }
+                            | "IE00BQN1K786" -> Some { What = Equity MomentumFactor; Where = Some Europe }
+                            | "IE00BQN1K901" -> Some { What = Equity ValueFactor; Where = Some Europe }
                             | "IE00BTJRMP35" -> Some { What = Equity LargeCapOrUnspecified; Where = Some EmergingMarkets }
                             | "LU0136240974" -> Some { What = Equity LargeCapOrUnspecified; Where = Some Japan }
                             | "LU0290355717" -> Some { What = FixedIncome Sovereign; Where = Some Eurozone } //discovered 4 Jul 2018
